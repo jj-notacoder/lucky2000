@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   Tailwind v4 theme tokens — brand palette + fonts exposed as utilities
+   (e.g. bg-cream, text-lucky-red, font-display). The same values are mirrored
+   as plain CSS variables in global.css for the hand-written component styles.
+   ========================================================================= */
+@theme {
+  --color-cream: #FAF3E0;
+  --color-cream-deep: #FDFBF4;
+  --color-paper: #F3E8C7;
+  --color-lucky-red: #ef2e31;
+  --color-retro-pink: #fbccd4;
+  --color-golden-yellow: #fde67e;
+  --color-arcade-blue: #b6e8de;
+  --color-ink: #6b3a1f;
+
+  --font-display: 'Clarendon', 'Bitter', Georgia, 'Times New Roman', serif;
+  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-ar: 'Modhesh', 'Lalezar', 'Tahoma', sans-serif;
+}

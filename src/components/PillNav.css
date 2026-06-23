@@ -1,0 +1,120 @@
+.pillnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 48px);
+  background: rgba(250, 243, 224, 0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  backdrop-filter: blur(10px) saturate(120%);
+  border-bottom: 1px solid rgba(239, 46, 49, 0.12);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Entrance — default state is VISIBLE; .is-ready just adds a gentle intro.
+   (If the animation never runs, the nav is still fully shown.) */
+@keyframes pn-in {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: none; }
+}
+.pillnav.is-ready .pillnav__logo { animation: pn-in 0.6s ease both 0.15s; }
+.pillnav.is-ready .pillnav__right { animation: pn-in 0.6s ease both 0.28s; }
+@media (prefers-reduced-motion: reduce) {
+  .pillnav.is-ready .pillnav__logo,
+  .pillnav.is-ready .pillnav__right { animation: none; }
+}
+
+/* LEFT logo — never hides */
+.pillnav__logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(18px, 2.4vw, 26px);
+  letter-spacing: 0.06em;
+  color: var(--pn-base, #ef2e31);
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  z-index: 2;
+}
+
+/* RIGHT cluster */
+.pillnav__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2.4vw, 28px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.pillnav__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.4vw, 16px);
+  margin: 0; padding: 0;
+  list-style: none;
+}
+
+/* Pills */
+.pillnav__pill {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(14px, 1.4vw, 18px);
+  letter-spacing: 0.04em;
+  color: var(--pn-pill-text, #ef2e31);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  position: relative;
+  transition: color 0.25s ease, background-color 0.25s ease;
+}
+.pillnav__pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--pn-pill, #fbccd4);
+  transform: scale(0.6);
+  opacity: 0;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+  z-index: -1;
+}
+.pillnav__pill:hover,
+.pillnav__pill:focus-visible,
+.pillnav__pill.is-active { color: var(--pn-pill-text-hover, #ef2e31); }
+.pillnav__pill:hover::before,
+.pillnav__pill:focus-visible::before,
+.pillnav__pill.is-active::before { transform: scale(1); opacity: 1; }
+
+/* EN / ع toggle */
+.pillnav__lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(239, 46, 49, 0.4);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--pn-base, #ef2e31);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.pillnav__lang:hover { background: rgba(253, 230, 126, 0.35); }
+.pillnav__lang span { opacity: 0.4; transition: opacity 0.2s ease; }
+.pillnav__lang span.is-on { opacity: 1; font-weight: 700; }
+.pillnav__lang-sep { opacity: 0.3 !important; }
+
+/* Hidden state — right cluster lifts away over the hero; logo remains. */
+.pillnav--hidden { background: transparent; border-color: transparent; }
+.pillnav--hidden .pillnav__right {
+  opacity: 0;
+  transform: translateY(-120%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pillnav__right { transition: opacity 0.2s linear; }
+  .pillnav--hidden .pillnav__right { transform: none; }
+}

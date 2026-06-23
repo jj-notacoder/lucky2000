@@ -1,0 +1,115 @@
+.flowing-menu {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--fm-bg);
+  border: 1px solid var(--fm-border);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+/* Rows */
+.fm-item {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-top: 1px solid color-mix(in srgb, var(--fm-border) 22%, transparent);
+}
+.fm-item:first-child { border-top: none; }
+
+.fm-link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 0 clamp(20px, 3vw, 40px);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(22px, 3.4vw, 42px);
+  letter-spacing: 0.01em;
+  color: var(--fm-text);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+html[lang="ar"] .fm-link { font-family: var(--font-display); }
+
+/* Golden "New Flavour" CTA */
+.fm-link.is-cta { color: var(--golden-yellow); }
+.fm-link__badge {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--golden-yellow);
+  color: var(--golden-yellow);
+}
+
+/* Marquee overlay (hidden below the row until hover; slid in by GSAP) */
+.fm-marquee {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--fm-mq-bg);
+  overflow: hidden;
+  transform: translateY(101%);
+  pointer-events: none;
+}
+.fm-marquee__inner { width: 100%; height: 100%; display: flex; align-items: center; }
+.fm-marquee__track {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  white-space: nowrap;
+  animation: fm-scroll linear infinite;
+}
+.fm-marquee__cell { display: inline-flex; align-items: center; gap: clamp(16px, 2.4vw, 34px); padding-right: clamp(16px, 2.4vw, 34px); }
+.fm-marquee__text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(22px, 3.4vw, 42px);
+  color: var(--fm-mq-text);
+  text-transform: uppercase;
+}
+html[lang="ar"] .fm-marquee__text { text-transform: none; }
+.fm-marquee__dot { color: var(--lucky-red); font-size: clamp(18px, 2.4vw, 28px); }
+@keyframes fm-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Cursor-following dual donut images */
+.fm-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 60;
+  display: flex;
+  gap: 10px;
+  pointer-events: none;
+  opacity: 0;
+  margin: 18px 0 0 18px; /* offset from cursor tip */
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+.fm-cursor.is-on { opacity: 1; }
+.fm-cursor img {
+  width: clamp(90px, 9vw, 140px);
+  height: clamp(90px, 9vw, 140px);
+  object-fit: cover;
+  border-radius: 14px;
+  background: var(--cream);
+  border: 2px solid var(--cream);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+.fm-cursor img:nth-child(2) { transform: rotate(4deg) translateY(8px); }
+
+@media (max-width: 640px) {
+  .fm-cursor { display: none; } /* no hover on touch */
+}
+@media (prefers-reduced-motion: reduce) {
+  .fm-marquee__track { animation: none; }
+}

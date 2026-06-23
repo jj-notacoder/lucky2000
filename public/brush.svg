@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" preserveAspectRatio="none">
+  <!-- 4 overlapping diagonal paintbrush strokes (left → right), round-capped
+       for a brushy silhouette. Used as a CSS mask over the frosted panel so
+       text reads against the Warp shader. White = revealed. -->
+  <g stroke="#ffffff" fill="none" stroke-linecap="round">
+    <line x1="44" y1="112" x2="966" y2="72"  stroke-width="150"/>
+    <line x1="34" y1="210" x2="972" y2="176" stroke-width="156"/>
+    <line x1="48" y1="312" x2="958" y2="286" stroke-width="150"/>
+    <line x1="42" y1="398" x2="964" y2="378" stroke-width="140"/>
+  </g>
+</svg>

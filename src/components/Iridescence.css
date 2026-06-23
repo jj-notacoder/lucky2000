@@ -1,0 +1,17 @@
+/* Global living background. Fixed, full-viewport, BEHIND all content.
+   pointer-events:none so it never blocks clicks/scroll on the page. */
+.iridescence-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.iridescence-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

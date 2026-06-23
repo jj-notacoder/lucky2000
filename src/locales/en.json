@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "about": "About",
+    "flavours": "Flavours",
+    "location": "Location",
+    "insta": "Insta"
+  },
+  "hero": {
+    "welcome": "Welcome",
+    "tagline": "Doughnuts from the sunset",
+    "scroll": "scroll"
+  },
+  "marquee": {
+    "announcement": "Fridays • Sat • Sundays | Opens at 7PM | New flavours every weekend"
+  },
+  "about": {
+    "title": "About",
+    "subtitle": "Hit the jackpot, after dark.",
+    "body": "Lucky 2000 is a midnight doughnut drop in Abu Dhabi — golden zalabiyeh meets Italian zeppole, fried fresh and filled with playful, high-quality flavours. Strong black sweet tea on the side. Every visit should feel like pulling the lever and watching the reels land."
+  },
+  "flavours": {
+    "title": "Flavours",
+    "mystery": "Mystery Flavour",
+    "mysteryCta": "Check IG for this week's mystery flavour.",
+    "items": {
+      "cinnamon": "Cinnamon Sugar + Vanilla Custard",
+      "orange": "Orange Cardamom",
+      "chocolate": "Chocolate Hazelnut",
+      "strawberry": "Strawberries & Cream"
+    }
+  },
+  "location": {
+    "title": "Location",
+    "body": "Open Fridays, Saturdays & Sundays, 7 PM onwards. Mina style — down the block in Abu Dhabi.",
+    "area": "Mina Zayed, Abu Dhabi"
+  },
+  "footer": {
+    "rights": "© 2026 Lucky 2000. All rights reserved.",
+    "tagline": "Doughnuts from the sunset."
+  }
+}

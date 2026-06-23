@@ -1,0 +1,28 @@
+{
+  "name": "lucky-2000",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Lucky 2000 — retro-arcade late-night doughnut destination, Abu Dhabi.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@paper-design/shaders-react": "^0.0.76",
+    "@splinetool/react-spline": "^4.0.0",
+    "gsap": "^3.12.5",
+    "i18next": "^23.11.5",
+    "ogl": "^1.0.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^14.1.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "tailwindcss": "^4.3.1",
+    "vite": "^5.3.1"
+  }
+}

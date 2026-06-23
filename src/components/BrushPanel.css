@@ -1,0 +1,22 @@
+/* Paint-swatch panel — light cream backdrop masked into diagonal brush strokes,
+   so the text reads as if painted onto the Warp background. */
+.brush-panel {
+  position: relative;
+  background: rgba(253, 246, 227, 0.9);
+  -webkit-backdrop-filter: blur(6px) saturate(115%);
+  backdrop-filter: blur(6px) saturate(115%);
+
+  -webkit-mask: url('/brush.svg') center / 100% 100% no-repeat;
+  mask: url('/brush.svg') center / 100% 100% no-repeat;
+}
+
+.brush-panel__inner {
+  padding: clamp(52px, 7vw, 92px) clamp(44px, 6vw, 88px);
+  color: var(--ink);
+}
+/* Title colour comes from SectionTitle (Lucky Red); body is warm ink. */
+.brush-panel p { color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .brush-panel { backdrop-filter: blur(4px); }
+}

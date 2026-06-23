@@ -1,0 +1,72 @@
+/* =========================================================================
+   LUCKY 2000 — Global tokens, fonts, base layout
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   OPTIONAL licensed faces (drop-in). When you own Clarendon + Modhesh, place
+   the files in /public/fonts and uncomment. They are listed FIRST in the
+   stacks below, so they override the Bitter/Lalezar stand-ins automatically.
+--------------------------------------------------------------------------- */
+/*
+@font-face {
+  font-family: 'Clarendon';
+  src: url('/fonts/Clarendon.woff2') format('woff2');
+  font-weight: 400 800; font-display: swap;
+}
+@font-face {
+  font-family: 'Modhesh';
+  src: url('/fonts/Modhesh.woff2') format('woff2');
+  font-weight: 400 700; font-display: swap;
+}
+*/
+
+:root {
+  /* Brand palette */
+  --cream:         #FAF3E0;
+  --cream-deep:    #FDFBF4;
+  --paper:         #F3E8C7;
+  --lucky-red:     #ef2e31;
+  --retro-pink:    #fbccd4;
+  --golden-yellow: #fde67e;
+  --arcade-blue:   #b6e8de;
+  --ink:           #6b3a1f;   /* warm body ink */
+
+  /* Type stacks. Clarendon/Modhesh first (license drop-in) → live stand-ins. */
+  --font-display: 'Clarendon', 'Bitter', Georgia, 'Times New Roman', serif;
+  --font-body:    'Lora', Georgia, 'Times New Roman', serif;
+  --font-ar:      'Modhesh', 'Lalezar', 'Tahoma', sans-serif;
+
+  --nav-h: 72px;
+}
+
+/* When Arabic is active, EVERY text element swaps to the Arabic display face.
+   Because [lang="ar"] is set on <html>, this cascades to the whole document. */
+html[lang="ar"] {
+  --font-display: 'Modhesh', 'Lalezar', 'Tahoma', sans-serif;
+  --font-body:    'Modhesh', 'Lalezar', 'Tahoma', sans-serif;
+}
+
+/* ------------------------------- reset --------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 100%; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--lucky-red);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* Headings default to the display face (Clarendon / Modhesh). */
+h1, h2, h3, .font-display { font-family: var(--font-display); }
+
+/* Arabic display faces read better with a touch more line-height. */
+html[lang="ar"] body { line-height: 1.5; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

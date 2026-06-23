@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Mobile-first: viewport-fit=cover lets the fixed canvas bleed under notches -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FAF3E0" />
+  <title>Lucky 2000 — Doughnuts from Sunset · Abu Dhabi</title>
+  <meta name="description" content="Lucky 2000 — a retro-arcade nightlife doughnut destination in Abu Dhabi. Doughnuts from sunset, Fridays, Saturdays & Sundays." />
+
+  <!-- Favicon (the supplied logo) -->
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+
+  <!--
+    FONTS
+    - 'Lora'  → body copy (free, Google Fonts).
+    - 'Bitter'→ a freely-available slab serif used here as the *fallback / stand-in*
+                for Clarendon, which is a commercial typeface. When you license
+                Clarendon, drop the font files in assets/fonts/ and uncomment the
+                @font-face block at the top of css/style.css — it will take over
+                automatically because 'Clarendon' is listed first in --font-display.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,600;0,700;0,800;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <!-- Paint the very first frame ASAP so there is never a blank flash behind the loader -->
+  <link rel="preload" as="image" href="assets/frames/0001.webp" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- =====================================================================
+       1) PRELOADER  (Lucky-Red spinner on cream; fades out once all 50
+          frames are decoded and cached in memory)
+       ===================================================================== -->
+  <div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Loading">
+    <div class="preloader__spinner"></div>
+    <p class="preloader__pct"><span id="loadPct">0</span><span class="preloader__sign">%</span></p>
+    <p class="preloader__hint">Loading the jackpot…</p>
+  </div>
+
+  <!-- =====================================================================
+       2) NAVIGATION  (fixed, frosted cream, above everything except loader)
+       ===================================================================== -->
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="#top" aria-label="Lucky 2000 home">LUCKY&nbsp;2000</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#location">Location</a>
+      <a href="https://www.instagram.com/luckytwothousand/" target="_blank" rel="noopener noreferrer">Insta</a>
+    </nav>
+  </header>
+
+  <!-- =====================================================================
+       3) HERO CANVAS  (full-screen, FIXED to the background; the scroll
+          sequence is drawn here. Everything else scrolls over it.)
+       ===================================================================== -->
+  <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
+
+  <!-- =====================================================================
+       4) HERO SECTION  (this element is the ScrollTrigger trigger + pin.
+          Holds the centered "Welcome" and the subtle scroll cue.)
+       ===================================================================== -->
+  <main id="top">
+    <section class="hero" id="hero">
+      <!-- Centered welcome — fades out within the first 5% of the scroll -->
+      <div class="hero__intro" id="hero-intro">
+        <h1 class="hero__welcome">Welcome</h1>
+        <p class="hero__sub">Doughnuts from sunset</p>
+      </div>
+
+      <!-- Subtle scroll cue — thin pulsing red line + small italic "Scroll" -->
+      <div class="hero__cue" id="hero-cue" aria-hidden="true">
+        <span class="hero__cue-word">Scroll</span>
+        <span class="hero__cue-line"></span>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         5) CONTENT AFTER THE HERO
+         Opaque sections (cream/red) that scroll up over the fixed canvas
+         once the jackpot frame has locked in.
+         ================================================================= -->
+
+    <!-- Marquee bridge -->
+    <section class="marquee" aria-label="Opening hours">
+      <div class="marquee__track">
+        <!-- duplicated twice for a seamless infinite loop -->
+        <span>Fridays&nbsp;·&nbsp;Saturdays&nbsp;·&nbsp;Sundays&nbsp;·&nbsp;Sunset 7PM onwards&nbsp;·&nbsp;New flavours every week&nbsp;·&nbsp;</span>
+        <span aria-hidden="true">Fridays&nbsp;·&nbsp;Saturdays&nbsp;·&nbsp;Sundays&nbsp;·&nbsp;Sunset 7PM onwards&nbsp;·&nbsp;New flavours every week&nbsp;·&nbsp;</span>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="panel" id="about">
+      <div class="panel__inner">
+        <p class="panel__eyebrow">About</p>
+        <h2 class="panel__title">Hit the jackpot, after dark.</h2>
+        <p class="panel__body">
+          Lucky&nbsp;2000 is a midnight doughnut drop in Abu Dhabi — golden
+          Italian-zeppole-meets-zalabiyeh, fried fresh and filled with playful,
+          high-quality flavours. Mina style. Strong black sweet tea on the side.
+          Every visit should feel like pulling the lever and watching the reels land.
+        </p>
+      </div>
+    </section>
+
+    <!-- Location -->
+    <section class="panel panel--alt" id="location">
+      <div class="panel__inner">
+        <p class="panel__eyebrow">Location</p>
+        <h2 class="panel__title">Down the block. Abu&nbsp;Dhabi.</h2>
+        <p class="panel__body">
+          Open Fridays, Saturdays &amp; Sundays, 7&nbsp;PM onwards.
+          Follow the weekly drop on
+          <a href="https://www.instagram.com/luckytwothousand/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          to see what’s starring this week.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       SCRIPTS
+       GSAP core + ScrollTrigger from CDN, then our hero controller.
+       (defer keeps them non-blocking; main.js waits for DOMContentLoaded.)
+       ===================================================================== -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="js/main.js"></script>
+</body>
+</html>

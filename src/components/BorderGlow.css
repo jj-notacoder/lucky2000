@@ -1,0 +1,43 @@
+.border-glow {
+  position: relative;
+  border-radius: var(--r, 28px);
+  background: var(--bg, rgba(253, 246, 227, 0.1));
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+/* Glowing ring: a cursor-anchored gradient masked to the border only. */
+.border-glow__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: var(--glow);
+  opacity: calc(var(--on, 0) * var(--intensity, 1));
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  /* show the gradient only in the 2px border ring */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  /* soft outer bloom */
+  filter: drop-shadow(0 0 6px rgba(239, 46, 49, 0.25));
+}
+
+.border-glow__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+/* optional animated sweep when animated={true} */
+@keyframes bg-rotate { to { transform: rotate(360deg); } }
+.border-glow--animated .border-glow__ring { animation: bg-rotate 8s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .border-glow__ring { transition: none; }
+  .border-glow--animated .border-glow__ring { animation: none; }
+}

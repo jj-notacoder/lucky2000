@@ -1,0 +1,344 @@
+/* =========================================================================
+   LUCKY 2000 — Hero / Landing styles
+   Mobile-first. Heavily commented. Design tokens up top.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   OPTIONAL: licensed Clarendon.
+   When you buy/own Clarendon, drop the files in assets/fonts/ and uncomment.
+   Because 'Clarendon' is first in --font-display, it overrides the Bitter
+   stand-in everywhere with zero further changes.
+--------------------------------------------------------------------------- */
+/*
+@font-face {
+  font-family: 'Clarendon';
+  src: url('../assets/fonts/Clarendon.woff2') format('woff2');
+  font-weight: 400 800;
+  font-display: swap;
+}
+*/
+
+/* ----------------------------- DESIGN TOKENS ----------------------------- */
+:root {
+  /* Brand palette */
+  --cream:         #FAF3E0;  /* pale yellow paper base */
+  --cream-deep:    #F3E8C7;  /* slightly deeper cream for alt panels */
+  --lucky-red:     #ef2e31;  /* primary: type, line-art, UI borders */
+  --retro-pink:    #fbccd4;  /* highlight / glow */
+  --golden-yellow: #fde67e;  /* jackpot lighting / hover */
+  --arcade-blue:   #b6e8de;  /* cool contrast */
+
+  /* Type stacks — Clarendon first (license drop-in), Bitter as live fallback */
+  --font-display: 'Clarendon', 'Bitter', Georgia, 'Times New Roman', serif;
+  --font-body:    'Lora', Georgia, 'Times New Roman', serif;
+
+  --nav-h: 68px;
+}
+
+/* ------------------------------- RESET ---------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);          /* shows before frames load + behind all */
+  color: var(--lucky-red);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;                /* never allow horizontal scroll */
+}
+
+a { color: inherit; }
+
+/* =========================================================================
+   1) PRELOADER
+   ========================================================================= */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;                     /* above everything */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: var(--cream);
+  /* fade-out transition (toggled by adding .preloader--hidden in JS) */
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+.preloader--hidden {
+  opacity: 0;
+  pointer-events: none;             /* let clicks through during fade */
+}
+
+.preloader__spinner {
+  width: 54px;
+  height: 54px;
+  border: 3px solid rgba(239, 46, 49, 0.18);
+  border-top-color: var(--lucky-red);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.preloader__pct {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 0.04em;
+  color: var(--lucky-red);
+}
+.preloader__sign { font-size: 0.6em; opacity: 0.6; }
+.preloader__hint {
+  margin: 0;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(239, 46, 49, 0.65);
+}
+
+/* =========================================================================
+   2) NAVIGATION  (fixed, frosted cream)
+   ========================================================================= */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 48px);
+  /* subtle frosted cream so the canvas glows through */
+  background: rgba(250, 243, 224, 0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  backdrop-filter: blur(10px) saturate(120%);
+  border-bottom: 1px solid rgba(239, 46, 49, 0.12);
+}
+
+.nav__logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(18px, 2.4vw, 26px);
+  letter-spacing: 0.06em;
+  color: var(--lucky-red);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav__links {
+  display: flex;
+  gap: clamp(16px, 3vw, 40px);
+}
+.nav__links a {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(14px, 1.4vw, 18px);
+  letter-spacing: 0.04em;
+  color: var(--lucky-red);
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color 0.25s ease;
+}
+/* animated underline that grows from the left */
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--golden-yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s ease;
+}
+.nav__links a:hover,
+.nav__links a:focus-visible { color: var(--golden-yellow); }
+.nav__links a:hover::after,
+.nav__links a:focus-visible::after { transform: scaleX(1); }
+
+/* =========================================================================
+   3) HERO CANVAS  (fixed background layer)
+   ========================================================================= */
+.hero-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;                       /* behind content, above body bg */
+  display: block;
+  background: var(--cream);
+}
+
+/* =========================================================================
+   4) HERO SECTION + OVERLAYS
+   ========================================================================= */
+.hero {
+  position: relative;
+  z-index: 2;                       /* overlays sit above the canvas */
+  height: 100vh;
+  height: 100svh;                   /* small-viewport unit for mobile chrome */
+  width: 100%;
+}
+
+/* Centered welcome block */
+.hero__intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  padding: 0 20px;
+  will-change: opacity;             /* hint: only opacity animates */
+}
+.hero__welcome {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--lucky-red);
+  font-size: clamp(64px, 16vw, 220px);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  /* gentle lift for legibility over the bright daylight frame */
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.10);
+}
+.hero__sub {
+  margin: 0;
+  font-style: italic;
+  font-size: clamp(14px, 2vw, 20px);
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: var(--lucky-red);
+  opacity: 0.85;
+}
+
+/* Subtle scroll cue (bottom-center): small italic word + pulsing 1px line */
+.hero__cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(18px, 4vh, 40px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  will-change: opacity;
+}
+.hero__cue-word {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: var(--lucky-red);
+  opacity: 0.8;
+}
+.hero__cue-line {
+  width: 1px;
+  height: 48px;
+  background: var(--lucky-red);
+  transform-origin: top center;
+  animation: cuePulse 1.8s ease-in-out infinite;
+}
+@keyframes cuePulse {
+  0%, 100% { transform: scaleY(0.35); opacity: 0.35; }
+  50%      { transform: scaleY(1);    opacity: 1; }
+}
+
+/* =========================================================================
+   5) CONTENT AFTER HERO  (opaque, covers the fixed canvas as it scrolls up)
+   ========================================================================= */
+
+/* Marquee bridge */
+.marquee {
+  position: relative;
+  z-index: 2;
+  background: var(--lucky-red);
+  color: var(--cream);
+  overflow: hidden;
+  padding: 18px 0;
+  border-top: 2px solid var(--cream);
+  border-bottom: 2px solid var(--cream);
+}
+.marquee__track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee 22s linear infinite;
+}
+.marquee__track span {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(18px, 3vw, 30px);
+  letter-spacing: 0.04em;
+  padding-right: 0; /* spacing handled by the text dots */
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }   /* exactly one copy's width */
+}
+
+/* Story / location panels */
+.panel {
+  position: relative;
+  z-index: 2;
+  background: var(--cream);
+  padding: clamp(64px, 12vh, 140px) clamp(20px, 6vw, 80px);
+}
+.panel--alt { background: var(--cream-deep); }
+.panel__inner { max-width: 760px; margin: 0 auto; }
+.panel__eyebrow {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--lucky-red);
+  opacity: 0.7;
+}
+.panel__title {
+  margin: 0 0 22px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(32px, 6vw, 64px);
+  line-height: 1.02;
+  color: var(--lucky-red);
+}
+.panel__body {
+  margin: 0;
+  font-size: clamp(16px, 2.2vw, 20px);
+  line-height: 1.65;
+  color: #6b3a1f;                   /* warm ink for readable body copy */
+}
+.panel__body a {
+  color: var(--lucky-red);
+  text-decoration: underline;
+  text-decoration-color: var(--golden-yellow);
+  text-underline-offset: 3px;
+}
+
+/* =========================================================================
+   ACCESSIBILITY — respect reduced-motion preferences
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero__cue-line { animation: none; opacity: 0.6; }
+  .marquee__track { animation-duration: 60s; }
+  .preloader__spinner { animation-duration: 1.8s; }
+}

@@ -1,0 +1,60 @@
+/* Section wrapper (composes LiquidBackdrop + CurvedLoop) */
+.marquee-section {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  /* translucent glass strip so the Iridescence shader glows through */
+  background: rgba(18, 14, 22, 0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  backdrop-filter: blur(10px) saturate(130%);
+  border-top: 2px solid var(--golden-yellow);
+  border-bottom: 2px solid var(--golden-yellow);
+  padding: 22px 0;
+  isolation: isolate;
+}
+
+/* Liquid gradient backdrop */
+.liquid-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  opacity: 0.55;
+}
+.liquid-backdrop canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: blur(38px) saturate(135%);
+  transform: scale(1.15); /* hide blurred edges */
+}
+
+/* Marquee */
+.curvedloop { width: 100%; }
+.curvedloop__track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  cursor: grab;
+  user-select: none;
+}
+.curvedloop__track.is-grabbing { cursor: grabbing; }
+.curvedloop__group { display: inline-flex; align-items: center; }
+.curvedloop__unit { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; }
+
+.curvedloop__text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(18px, 3vw, 30px);
+  letter-spacing: 0.04em;
+  color: var(--cream);
+  text-transform: uppercase;
+}
+html[lang="ar"] .curvedloop__text { text-transform: none; }
+
+.curvedloop__donut {
+  width: clamp(26px, 3.4vw, 40px);
+  height: clamp(26px, 3.4vw, 40px);
+  color: var(--cream);
+  flex: 0 0 auto;
+}

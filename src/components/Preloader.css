@@ -1,0 +1,39 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: var(--cream);
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+.preloader--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.preloader__spinner {
+  width: 54px;
+  height: 54px;
+  border: 3px solid rgba(239, 46, 49, 0.18);
+  border-top-color: var(--lucky-red);
+  border-radius: 50%;
+  animation: lk-spin 0.9s linear infinite;
+}
+@keyframes lk-spin { to { transform: rotate(360deg); } }
+.preloader__pct {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 0.04em;
+  color: var(--lucky-red);
+}
+.preloader__sign { font-size: 0.6em; opacity: 0.6; }
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader__spinner { animation-duration: 1.8s; }
+}

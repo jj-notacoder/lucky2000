@@ -1,0 +1,113 @@
+/* Fixed transparent rail holding the two floating ovals. */
+.fnav {
+  position: fixed;
+  top: clamp(14px, 2.4vw, 26px);
+  left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 clamp(14px, 3vw, 40px);
+  pointer-events: none; /* only the ovals are interactive */
+}
+
+/* Shared frosted-glass oval */
+.fnav__oval {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 22px);
+  height: 54px;
+  padding: 0 clamp(16px, 2vw, 26px);
+  border-radius: 999px;
+  background: rgba(250, 243, 224, 0.45);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(239, 46, 49, 0.18);
+  box-shadow: 0 8px 30px rgba(107, 58, 31, 0.12);
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.fnav__oval:hover { box-shadow: 0 10px 36px rgba(107, 58, 31, 0.18); }
+
+/* Brand oval */
+.fnav__brand { color: var(--lucky-red); }
+.fnav__logo-img {
+  height: 36px;
+  width: auto;
+  border-radius: 8px;
+  mix-blend-mode: multiply; /* drops the logo's light background into the pill */
+}
+.fnav__logo-text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(16px, 1.8vw, 20px);
+  letter-spacing: 0.06em;
+  color: var(--lucky-red);
+}
+
+/* Menu oval links */
+.fnav__link {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(14px, 1.3vw, 17px);
+  letter-spacing: 0.03em;
+  color: var(--lucky-red);
+  text-decoration: none;
+  padding: 4px 2px;
+  transition: color 0.25s ease;
+}
+.fnav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 2px;
+  background: var(--golden-yellow);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.28s ease;
+}
+.fnav__link:hover,
+.fnav__link:focus-visible,
+.fnav__link.is-active { color: #b8181b; }
+.fnav__link:hover::after,
+.fnav__link:focus-visible::after,
+.fnav__link.is-active::after { transform: scaleX(1); }
+
+/* Instagram icon link */
+.fnav__iconlink {
+  display: inline-flex;
+  color: var(--lucky-red);
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+.fnav__iconlink:hover { color: var(--golden-yellow); transform: translateY(-1px); }
+.fnav__ig { width: 22px; height: 22px; }
+
+/* EN / ع toggle */
+.fnav__lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(239, 46, 49, 0.4);
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--lucky-red);
+  transition: background 0.25s ease;
+}
+.fnav__lang:hover { background: rgba(253, 230, 126, 0.4); }
+.fnav__lang span { opacity: 0.4; transition: opacity 0.2s ease; }
+.fnav__lang span.is-on { opacity: 1; font-weight: 700; }
+.fnav__lang-sep { opacity: 0.3 !important; }
+
+/* Mobile: shrink + drop link labels gracefully */
+@media (max-width: 560px) {
+  .fnav__oval { height: 46px; gap: 12px; padding: 0 14px; }
+  .fnav__logo-text { display: none; }
+  .fnav__link { font-size: 13px; }
+}

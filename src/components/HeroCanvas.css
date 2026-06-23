@@ -1,0 +1,90 @@
+.hero-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;            /* above Iridescence (-1), below content (2) */
+  display: block;
+  background: var(--cream);
+  pointer-events: none;  /* purely a background layer */
+  opacity: 1;            /* scrubbed to 0 as the marquee enters (see HeroCanvas.jsx) */
+}
+
+.hero {
+  position: relative;
+  z-index: 2;            /* overlays above the canvas */
+  height: 100vh;
+  height: 100svh;
+  width: 100%;
+}
+
+/* Centered welcome */
+.hero__intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  padding: 0 20px;
+  will-change: opacity;
+}
+.hero__welcome {
+  margin: 0;
+  font-weight: 800;
+  color: var(--lucky-red);
+  font-size: clamp(64px, 16vw, 220px);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.10);
+}
+.hero__sub {
+  margin: 0;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(14px, 2vw, 20px);
+  letter-spacing: 0.14em;
+  color: var(--lucky-red);
+  opacity: 0.85;
+}
+/* Arabic body face isn't italic-friendly; keep it upright when RTL */
+html[lang="ar"] .hero__sub { font-style: normal; letter-spacing: 0; }
+
+/* Scroll cue */
+.hero__cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(18px, 4vh, 40px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  will-change: opacity;
+}
+.hero__cue-word {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: var(--lucky-red);
+  opacity: 0.8;
+}
+html[lang="ar"] .hero__cue-word { font-family: var(--font-display); font-style: normal; letter-spacing: 0; }
+.hero__cue-line {
+  width: 1px;
+  height: 48px;
+  background: var(--lucky-red);
+  transform-origin: top center;
+  animation: lk-cue 1.8s ease-in-out infinite;
+}
+@keyframes lk-cue {
+  0%, 100% { transform: scaleY(0.35); opacity: 0.35; }
+  50%      { transform: scaleY(1);    opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__cue-line { animation: none; opacity: 0.6; }
+}

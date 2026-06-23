@@ -1,0 +1,80 @@
+.flavours-sec {
+  position: relative;
+  z-index: 2;
+  padding: clamp(60px, 10vh, 130px) clamp(20px, 6vw, 80px);
+}
+
+.flav-row {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media (min-width: 768px) {
+  .flav-row { flex-direction: row; height: 560px; }
+}
+
+/* .flav-card is the BorderGlow wrapper (the flex item). */
+.flav-card {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 120px;
+  cursor: pointer;
+  transition: flex-grow 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (min-width: 768px) {
+  .flav-card { min-height: 0; }
+  .flav-card.is-open { flex-grow: 4; }
+}
+
+.flav-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+.flav-card:hover .flav-card__bg { transform: scale(1.05); }
+
+.flav-card__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.62), rgba(0,0,0,0.05) 52%, transparent);
+}
+
+.flav-card__label {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 22px;
+}
+.flav-card__label h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(18px, 2.2vw, 30px);
+  line-height: 1.08;
+  color: var(--cream);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+.flav-card.is-mystery .flav-card__label h3 { color: var(--golden-yellow); }
+
+.flav-card__cta {
+  margin: 10px 0 0;
+  max-width: 30ch;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--golden-yellow);
+}
+html[lang="ar"] .flav-card__cta { font-family: var(--font-display); }
+.flav-card__cta span {
+  margin-inline-start: 6px;
+  white-space: nowrap;
+  border: 1px solid var(--golden-yellow);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 12px;
+}
