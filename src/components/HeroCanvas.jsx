@@ -6,10 +6,10 @@ import './HeroCanvas.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FRAME_COUNT = 50;
 const SCROLL_VH = 5;     // pin length = 5 viewport heights (desktop)
 const INTRO_FADE = 0.05; // overlays gone within first 5% of scroll
 const MAX_DPR = 2;
+
 
 /**
  * Full-screen fixed canvas that scrubs the 50-frame slot-machine sequence,
@@ -33,22 +33,24 @@ export default function HeroCanvas({ frames, ready }) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d', { alpha: false });
     let viewW = 0, viewH = 0, dpr = 1, currentFrame = -1;
+    let renderTargetIndex = -1;
+    let rAFId = null;
 
-    /* ---- mathematical cover-fit render (perfectly proportioned on vertical phone screens) ---- */
+    /* ---- requestAnimationFrame synchronized render (locks speed to native refresh rate) ---- */
     const render = (index) => {
-      const img = frames[index];
-      if (!img || !img.complete || !img.width) return;
+      renderTargetIndex = index;
+      if (rAFId !== null) return;
 
-      // Calculate scale factor mathematically to cover canvas area
-      const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+      rAFId = requestAnimationFrame(() => {
+        rAFId = null;
+        const img = frames[renderTargetIndex];
+        if (!img || !img.complete) return;
 
-      // Calculate center offsets
-      const x = (canvas.width / 2) - (img.width / 2) * scale;
-      const y = (canvas.height / 2) - (img.height / 2) * scale;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-      currentFrame = index;
+        // Draw at exactly 100% width and height (already pre-cropped and proportioned)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        currentFrame = renderTargetIndex;
+      });
     };
 
     const sizeCanvas = () => {
@@ -78,7 +80,9 @@ export default function HeroCanvas({ frames, ready }) {
       const { isMobile } = context.conditions;
       // Reduce the end value on mobile (2.5 vh) compared to desktop (SCROLL_VH = 5)
       const scrollLen = () => window.innerHeight * (isMobile ? 2.5 : SCROLL_VH);
-      const playhead = { frame: 0 };
+      
+      // GSAP timeline is strictly tied to frame 1 to 50
+      const playhead = { frame: 1 };
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -93,12 +97,15 @@ export default function HeroCanvas({ frames, ready }) {
       });
 
       tl.to(playhead, {
-        frame: FRAME_COUNT - 1,
+        frame: 50,
         ease: 'none',
         duration: 1,
         onUpdate: () => {
-          const f = Math.round(playhead.frame);
-          if (f !== currentFrame) render(f);
+          const N = frames.length;
+          if (N === 0) return;
+          // Dynamically map playhead.frame (1 to 50) to the array bounds (0 to N-1)
+          const index = Math.min(N - 1, Math.max(0, Math.round(((playhead.frame - 1) / 49) * (N - 1))));
+          if (index !== currentFrame) render(index);
         },
       }, 0);
 
@@ -143,6 +150,7 @@ export default function HeroCanvas({ frames, ready }) {
 
     /* ---- cleanup (React strict-mode / unmount safe) ---- */
     return () => {
+      if (rAFId !== null) cancelAnimationFrame(rAFId);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('scroll', onScrollFade);
       clearTimeout(rt);

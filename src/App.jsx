@@ -11,14 +11,13 @@ import CurvedLoop from './components/CurvedLoop';
 import { AboutSection, LocationSection, Footer } from './components/Sections';
 import FlavoursSection from './components/FlavoursSection';
 
-const FRAME_COUNT = 50;
-const FRAME_DIR = '/frames/';
 const IG = 'https://www.instagram.com/luckytwothousand/';
 
 export default function App() {
   const { t } = useTranslation();
-  const { frames, progress, ready } = usePreloadAssets(FRAME_COUNT, FRAME_DIR);
+  const { frames, progress, ready } = usePreloadAssets();
   const [introDone, setIntroDone] = useState(false);
+
 
   // Scroll-spy → active nav pill.
   const [activeHref, setActiveHref] = useState('#top');
