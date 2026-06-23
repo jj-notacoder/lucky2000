@@ -14,8 +14,14 @@
   padding: clamp(52px, 7vw, 92px) clamp(44px, 6vw, 88px);
   color: var(--ink);
 }
+@media (max-width: 767px) {
+  .brush-panel__inner {
+    padding: clamp(38px, 6vw, 52px) clamp(30px, 5vw, 44px);
+  }
+}
 /* Title colour comes from SectionTitle (Lucky Red); body is warm ink. */
 .brush-panel p { color: var(--ink); }
+
 
 @media (prefers-reduced-motion: reduce) {
   .brush-panel { backdrop-filter: blur(4px); }

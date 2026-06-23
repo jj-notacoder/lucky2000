@@ -105,9 +105,36 @@
 .fnav__lang span.is-on { opacity: 1; font-weight: 700; }
 .fnav__lang-sep { opacity: 0.3 !important; }
 
-/* Mobile: shrink + drop link labels gracefully */
-@media (max-width: 560px) {
-  .fnav__oval { height: 46px; gap: 12px; padding: 0 14px; }
-  .fnav__logo-text { display: none; }
-  .fnav__link { font-size: 13px; }
+/* Mobile: shrink + drop link labels gracefully, ensuring no overlap of canvas focal point */
+@media (max-width: 767px) {
+  .fnav {
+    top: 10px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .fnav__oval {
+    height: 42px;
+    gap: 8px;
+    padding: 0 12px;
+  }
+  .fnav__logo-img {
+    height: 28px;
+  }
+  .fnav__logo-text {
+    display: none; /* Hide brand text so it fits horizontally on single line without wrapping */
+  }
+  .fnav__link {
+    font-size: 12px;
+    padding: 2px 1px;
+  }
+  .fnav__lang {
+    font-size: 11px;
+    padding: 3px 6px;
+    gap: 2px;
+  }
+  .fnav__ig {
+    width: 16px;
+    height: 16px;
+  }
 }
+

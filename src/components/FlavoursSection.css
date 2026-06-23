@@ -21,11 +21,14 @@
   flex: 1 1 0;
   min-height: 120px;
   cursor: pointer;
-  transition: flex-grow 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: flex-grow 0.55s cubic-bezier(0.22, 1, 0.36, 1), min-height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flav-card.is-open {
+  min-height: 220px; /* expands vertically on mobile when tapped/active */
 }
 @media (min-width: 768px) {
   .flav-card { min-height: 0; }
-  .flav-card.is-open { flex-grow: 4; }
+  .flav-card.is-open { min-height: 0; flex-grow: 4; }
 }
 
 .flav-card__bg {
@@ -78,3 +81,20 @@ html[lang="ar"] .flav-card__cta { font-family: var(--font-display); }
   padding: 2px 8px;
   font-size: 12px;
 }
+
+@media (max-width: 767px) {
+  .flav-card__label {
+    padding: 16px;
+  }
+  .flav-card__cta {
+    margin: 6px 0 0;
+    max-width: 100%;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+  .flav-card__cta span {
+    padding: 1px 6px;
+    font-size: 11px;
+  }
+}
+

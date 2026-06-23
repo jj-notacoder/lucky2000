@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Warp } from '@paper-design/shaders-react';
 
 // Brand-tuned Warp config (palette swapped to Lucky 2000 tokens).
@@ -23,8 +23,14 @@ const config = {
  */
 export default function WarpBackground() {
   const ref = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)');
+    setIsMobile(media.matches);
+    const listener = (e) => setIsMobile(e.matches);
+    media.addEventListener('change', listener);
+
     const el = ref.current;
     if (!el) return;
     const onScroll = () => {
@@ -38,17 +44,27 @@ export default function WarpBackground() {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+
+    return () => {
+      media.removeEventListener('change', listener);
+      window.removeEventListener('scroll', onScroll);
+    };
   }, []);
+
+  const mobileConfig = {
+    ...config,
+    speed: isMobile ? 0 : 1, // Disable rendering loop on mobile to save rendering power/battery
+  };
 
   return (
     <div
       ref={ref}
-      className="fixed inset-0 w-full h-full z-[-1]"
+      className="fixed inset-0 w-full h-full z-[-1] pointer-events-none"
       style={{ opacity: 0 }}
       aria-hidden="true"
     >
-      <Warp style={{ width: '100%', height: '100%' }} {...config} />
+      <Warp style={{ width: '100%', height: '100%' }} {...mobileConfig} />
     </div>
   );
 }
+

@@ -37,7 +37,15 @@ export default function FlavoursSection() {
             onFocus={() => setOpen(i)}
             tabIndex={0}
             role={c.mystery ? 'link' : 'button'}
-            onClick={() => (c.mystery ? window.open(IG, '_blank', 'noopener') : setOpen(i))}
+            onClick={() => {
+              if (open === i) {
+                if (c.mystery) {
+                  window.open(IG, '_blank', 'noopener');
+                }
+              } else {
+                setOpen(i);
+              }
+            }}
           >
             <div className="flav-card__bg" style={{ backgroundImage: `url(${c.img})` }} />
             <div className="flav-card__shade" />
